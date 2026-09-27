@@ -141,4 +141,5 @@ Dockerfile, docker-compose.yml, requirements.txt
 
 Оформление — по корпоративной дизайн-системе Ростелекома (gen2 / «Атомаро»): токены `--rt-*` в `static/style.css`, тема Rostelecom Light (+ тёмная), страница `/design-system.html` с палитрой, типографикой и живыми примерами компонентов, маппинг на Atomaro React — в `docs/DESIGN_SYSTEM.md`.
 #   X a c k  
+ #   X a c k  
  
