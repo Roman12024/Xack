@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ru" data-rt-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ИТ Школа Ростелеком — CRM</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">◢ Ростелеком <span>ИТ Школа</span></div>
+    <div class="login-tagline">Код будущего</div>
+    <h1>CRM контроля взаимодействия с вузами</h1>
+    <p class="muted">Система контроля и обработки статистических данных по обучению студентов по ИТ-направлениям</p>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" id="auth-tab-login">Вход</button>
+      <button type="button" class="auth-tab" id="auth-tab-register">Регистрация</button>
+    </div>
+    <form id="login-form">
+      <label>E-mail<input type="text" id="login-username" required autocomplete="username" placeholder="you@example.com"></label>
+      <label>Пароль<input type="password" id="login-password" required autocomplete="current-password"></label>
+      <button type="submit" class="btn btn-primary btn-block">Войти</button>
+    </form>
+    <form id="register-form" class="hidden">
+      <label>ФИО<input type="text" id="reg-name" required placeholder="Иван Петров"></label>
+      <label>E-mail<input type="email" id="reg-email" required placeholder="you@example.com"></label>
+      <label>Пароль (мин. 6 символов)<input type="password" id="reg-password" required minlength="6" autocomplete="new-password"></label>
+      <label class="agree-row"><input type="checkbox" id="reg-agree" style="width:auto;margin:0">
+        <span>Я принимаю <a href="#" id="agree-link">пользовательское соглашение</a> и даю согласие на обработку персональных данных (152-ФЗ)</span></label>
+      <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+    </form>
+    <div id="login-error" class="error"></div>
+    <div id="login-notice" class="notice hidden"></div>
+    <div id="dev-link-box" class="hidden" style="margin-top:10px">
+      <div class="tag tag-warning">Dev-режим: SMTP не настроен</div>
+      <div style="margin-top:6px;font-size:13px">Письмо сохранено в outbox. Ссылка подтверждения: <a id="dev-link" href="#"></a></div>
+    </div>
+    <div class="demo-hint">
+      <b>Демо-доступ:</b> admin / Admin123! · manager / Manager123! · kam1 / Kam123!<br>
+      Регистрация по e-mail: после регистрации придёт письмо со ссылкой подтверждения.
+    </div>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="brand">◢ Ростелеком<small>ИТ Школа · CRM · Код будущего</small></div>
+    <nav id="tabs">
+      <button class="tab active hidden" data-tab="interactions">Взаимодействия</button>
+      <button class="tab hidden" data-tab="catalogs">Каталоги</button>
+      <button class="tab" data-tab="projects">ИТ-проекты</button>
+      <button class="tab" data-tab="courses">Курсы</button>
+      <button class="tab" data-tab="profile">Профиль</button>
+      <button class="tab" data-tab="applications">Заявки</button>
+      <button class="tab hidden" data-tab="reports">Отчёты и статистика</button>
+      <button class="tab hidden" data-tab="admin" id="tab-admin">Администрирование</button>
+    </nav>
+    <div class="userbox">
+      <img id="user-avatar" class="avatar hidden" alt="">
+      <span id="user-name"></span>
+      <span id="user-role" class="role-badge"></span>
+      <button class="btn btn-ghost" id="logout-btn">Выйти</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ВЗАИМОДЕЙСТВИЯ -->
+    <section id="tab-interactions" class="tabpage">
+      <div class="filters card">
+        <label>Период с <input type="date" id="f-from"></label>
+        <label>по <input type="date" id="f-to"></label>
+        <label>ВУЗ <select id="f-university"><option value="">— все —</option></select></label>
+        <label>Направление <select id="f-direction"><option value="">— все —</option></select></label>
+        <label>Продукт <select id="f-product"><option value="">— все —</option></select></label>
+        <label>Статус <select id="f-status"><option value="">— все —</option></select></label>
+        <label>Ответственный <select id="f-responsible"><option value="">— все —</option></select></label>
+        <button class="btn btn-primary" id="apply-filters">Применить</button>
+        <button class="btn" id="reset-filters">Сбросить</button>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h2>Взаимодействия с вузами</h2>
+          <button class="btn btn-primary" id="btn-new-interaction">+ Новое взаимодействие</button>
+        </div>
+        <div class="table-wrap">
+          <table id="interactions-table">
+            <thead><tr>
+              <th>ВУЗ</th><th>ИТ-продукт</th><th>Направление</th><th>Текущий статус</th><th>Ответственный</th><th>Обновлено</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- КАТАЛОГИ -->
+    <section id="tab-catalogs" class="tabpage hidden">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <h2>ВУЗы</h2>
+            <label class="btn file-btn">Импорт XLSX<input type="file" id="import-file" accept=".xlsx,.xls" hidden></label>
+          </div>
+          <div id="import-result" class="muted"></div>
+          <div class="table-wrap"><table id="universities-table">
+            <thead><tr><th>Название</th><th>ПО</th><th>Договор</th><th>Менеджер</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-head"><h2>ИТ-направления</h2></div>
+            <ul id="directions-list" class="simple-list"></ul>
+            <div class="inline-form"><input id="new-direction" placeholder="Новое направление"><button class="btn" id="add-direction">Добавить</button></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <h2>ИТ-проекты</h2>
+              <button class="btn btn-primary hidden" id="btn-new-product">+ Новый ИТ-проект</button>
+            </div>
+            <p class="muted">Продукты и программы с описанием, сроками и требованиями. Нажмите на карточку, чтобы открыть подробности.</p>
+            <div id="products-grid" class="projects-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ИТ-ПРОЕКТЫ (каталог для пользователей) -->
+    <section id="tab-projects" class="tabpage hidden">
+      <div class="card">
+        <div class="card-head">
+          <h2>Каталог ИТ-проектов</h2>
+          <div class="sort-box">
+            <select id="sort-projects">
+              <option value="end_date">По дате окончания</option>
+              <option value="start_date">По дате начала</option>
+              <option value="name">По названию</option>
+              <option value="direction">По направлению</option>
+            </select>
+            <button class="btn btn-outline" id="sort-projects-dir" title="Направление сортировки">↓</button>
+            <button class="btn btn-primary hidden" id="btn-new-project-2">+ Новый ИТ-проект</button>
+          </div>
+        </div>
+        <p class="muted">Продукты и программы, доступные для внедрения в вузах. Выберите продукт при создании взаимодействия.</p>
+        <div id="projects-grid" class="projects-grid"></div>
+      </div>
+    </section>
+
+    <!-- КУРСЫ -->
+    <section id="tab-courses" class="tabpage hidden">
+      <div class="card">
+        <div class="card-head">
+          <h2>Курсы и программы обучения</h2>
+          <div class="sort-box">
+            <select id="sort-courses">
+              <option value="end_date">По дате окончания</option>
+              <option value="start_date">По дате начала</option>
+              <option value="title">По названию</option>
+              <option value="direction">По направлению</option>
+            </select>
+            <button class="btn btn-outline" id="sort-courses-dir" title="Направление сортировки">↓</button>
+            <button class="btn btn-primary hidden" id="btn-new-course">+ Новый курс</button>
+          </div>
+        </div>
+        <p class="muted">Подробная информация о курсах: сроки, описание, требования к участникам. Нажмите на карточку, чтобы открыть.</p>
+        <div id="courses-grid" class="projects-grid"></div>
+      </div>
+    </section>
+
+    <!-- ПРОФИЛЬ -->
+    <section id="tab-profile" class="tabpage hidden">
+      <div class="card">
+        <div class="card-head"><h2>Мой профиль</h2><button class="btn btn-primary" id="pp-save">Сохранить</button></div>
+        <div class="profile-top">
+          <img id="pp-avatar-preview" class="avatar-lg" alt="">
+          <div>
+            <label class="btn btn-outline file-btn">Загрузить фото<input type="file" id="pp-avatar" accept=".png,.jpg,.jpeg,.webp,.gif" hidden></label>
+            <div class="muted" style="margin-top:6px">png, jpg, webp, gif · до 5 МБ</div>
+          </div>
+        </div>
+        <div class="profile-grid">
+          <label>ФИО<input id="pp-full_name"></label>
+          <label>E-mail<input id="pp-email" disabled></label>
+          <label>Телефон<input id="pp-phone" placeholder="+7 ___ ___-__-__"></label>
+          <label>Дата рождения<input type="date" id="pp-birth_date"></label>
+          <label>Город<input id="pp-city" placeholder="Москва"></label>
+          <label>Организация (вуз / школа)<input id="pp-organization" placeholder="МГУ им. М. В. Ломоносова"></label>
+          <label>Должность / роль<input id="pp-position" placeholder="Студент 3 курса"></label>
+          <label>Образование<input id="pp-education" placeholder="Бакалавриат, ИТ-направление"></label>
+          <label>Telegram<input id="pp-telegram" placeholder="@username"></label>
+          <label>Сайт / портфолио<input id="pp-portfolio" placeholder="https://…"></label>
+        </div>
+        <div id="pp-device-wrap" class="hidden">
+          <h3 style="margin-top:20px">Сессия и устройство</h3>
+          <div id="pp-device" class="course-text" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 20px">…</div>
+        </div>
+        <label style="margin-top:12px">Навыки<input id="pp-skills" placeholder="Python, Docker, SQL, …"></label>
+        <label style="margin-top:12px">О себе<textarea id="pp-about" rows="4" style="width:100%;padding:9px 12px;border:1px solid var(--rt-border);border-radius:var(--rt-radius-m);margin-top:4px" placeholder="Опыт, интересы, участие в проектах ИТ Школы"></textarea></label>
+        <div id="pp-error" class="error"></div>
+      </div>
+    </section>
+
+    <!-- ЗАЯВКИ -->
+    <section id="tab-applications" class="tabpage hidden">
+      <div class="card">
+        <div class="card-head"><h2 id="app-list-title">Мои заявки</h2></div>
+        <div id="app-new-form" class="inline-form" style="align-items:flex-end;margin-bottom:14px">
+          <label style="flex:1;min-width:220px">Курс<select id="app-course"><option value="">— общая заявка —</option></select></label>
+          <label style="flex:2;min-width:260px">Сообщение<input id="app-message" placeholder="Пояснение к заявке"></label>
+          <button class="btn btn-primary" id="app-create">Отправить заявку</button>
+        </div>
+        <div class="table-wrap"><table id="apps-table">
+          <thead><tr><th>№</th><th>Дата</th><th>Курс</th><th>Сообщение</th><th>Статус</th><th>Ответ</th><th id="th-app-user" class="hidden">Пользователь</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ОТЧЁТЫ -->
+    <section id="tab-reports" class="tabpage hidden">
+      <div class="filters card">
+        <label>Период с <input type="date" id="r-from"></label>
+        <label>по <input type="date" id="r-to"></label>
+        <label>ВУЗ <select id="r-university"><option value="">— все —</option></select></label>
+        <label>Направление <select id="r-direction"><option value="">— все —</option></select></label>
+        <label>Продукт <select id="r-product"><option value="">— все —</option></select></label>
+        <label>Статус <select id="r-status"><option value="">— все —</option></select></label>
+        <label>Ответственный <select id="r-responsible"><option value="">— все —</option></select></label>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h2>Отчёт по взаимодействиям за выбранный период</h2>
+          <div>
+            <button class="btn btn-primary" id="export-xlsx">⬇ Скачать XLSX</button>
+            <button class="btn btn-primary" id="export-pdf">⬇ Скачать PDF</button>
+          </div>
+        </div>
+        <p class="muted">Колонки отчёта: наименование вуза, ИТ-направление, ИТ-продукт, статус работы с вузом, ответственный.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card"><h2>По статусам</h2><div id="chart-status" class="bars"></div></div>
+        <div class="card"><h2>По вузам</h2><div id="chart-university" class="bars"></div></div>
+      </div>
+      <div class="card">
+        <h2>Диаграмма (PNG)</h2>
+        <img id="chart-img" class="chart-img" alt="Диаграмма по статусам">
+      </div>
+    </section>
+
+    <!-- АДМИНИСТРИРОВАНИЕ -->
+    <section id="tab-admin" class="tabpage hidden">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h2>Пользователи</h2></div>
+          <div class="table-wrap"><table id="users-table">
+            <thead><tr><th>ФИО</th><th>Логин</th><th>Роль</th><th></th><th>Досье</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+          <h3>Создать пользователя</h3>
+          <div class="inline-form">
+            <input id="nu-name" placeholder="ФИО">
+            <input id="nu-login" placeholder="Логин">
+            <input id="nu-pass" placeholder="Пароль">
+            <select id="nu-role">
+              <option value="user">Пользователь (КАМ)</option>
+              <option value="manager">Руководитель</option>
+              <option value="admin">Администратор</option>
+            </select>
+            <button class="btn btn-primary" id="nu-create">Создать</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Workflow (цепочки статусов)</h2></div>
+          <div id="workflows-list"></div>
+          <h3>Создать workflow</h3>
+          <div class="inline-form">
+            <input id="new-workflow-name" placeholder="Название workflow">
+            <button class="btn btn-primary" id="create-workflow">Создать (статусов: 14)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    Оформлено по дизайн-системе Ростелекома (gen2 / «Атомаро») ·
+    <a href="/design-system.html" target="_blank">Токены и компоненты для разработчиков</a>
+  </footer>
+</div>
+
+<!-- Модальное окно: детали взаимодействия -->
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <div class="card-head">
+      <h2 id="modal-title">Взаимодействие</h2>
+      <button class="btn btn-ghost" id="modal-close">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Модальное окно: курс (просмотр) -->
+<div id="modal-course" class="modal hidden">
+  <div class="modal-card">
+    <div class="card-head">
+      <h2 id="course-title">Курс</h2>
+      <button class="btn btn-ghost" id="course-close" style="color:var(--rt-text-secondary);border-color:var(--rt-border)">✕</button>
+    </div>
+    <div id="course-body"></div>
+  </div>
+</div>
+
+<!-- Модальное окно: форма курса (создание/редактирование) -->
+<div id="modal-course-form" class="modal hidden">
+  <div class="modal-card small" style="width:560px">
+    <div class="card-head"><h2 id="course-form-title">Новый курс</h2>
+      <button class="btn btn-ghost" id="course-form-close" style="color:var(--rt-text-secondary);border-color:var(--rt-border)">✕</button></div>
+    <input type="hidden" id="cf-id">
+    <label>Название курса<input id="cf-title" required></label>
+    <label>Направление<select id="cf-direction"><option value="">— без направления —</option></select></label>
+    <div style="display:flex;gap:12px">
+      <label style="flex:1">Дата начала<input type="date" id="cf-start"></label>
+      <label style="flex:1">Дата окончания<input type="date" id="cf-end"></label>
+    </div>
+    <label>Кто может принимать участие<textarea id="cf-requirements" rows="2" style="width:100%;padding:9px 12px;border:1px solid var(--rt-border);border-radius:var(--rt-radius-m);margin-top:4px" placeholder="Требования к участникам"></textarea></label>
+    <label>Подробное описание<textarea id="cf-description" rows="4" style="width:100%;padding:9px 12px;border:1px solid var(--rt-border);border-radius:var(--rt-radius-m);margin-top:4px" placeholder="Программа, формат, результаты обучения"></textarea></label>
+    <label>Фото (png, jpg, webp, gif, до 5 МБ)<input type="file" id="cf-photo" accept=".png,.jpg,.jpeg,.webp,.gif"></label>
+    <button class="btn btn-primary btn-block" id="cf-save">Сохранить</button>
+    <div id="cf-error" class="error"></div>
+  </div>
+</div>
+
+<!-- Модальное окно: ИТ-проект (просмотр) -->
+<div id="modal-product" class="modal hidden">
+  <div class="modal-card">
+    <div class="card-head">
+      <h2 id="product-title">ИТ-проект</h2>
+      <button class="btn btn-ghost" id="product-close" style="color:var(--rt-text-secondary);border-color:var(--rt-border)">✕</button>
+    </div>
+    <div id="product-body"></div>
+  </div>
+</div>
+
+<!-- Модальное окно: форма ИТ-проекта -->
+<div id="modal-product-form" class="modal hidden">
+  <div class="modal-card small" style="width:560px">
+    <div class="card-head"><h2 id="product-form-title">Новый ИТ-проект</h2>
+      <button class="btn btn-ghost" id="product-form-close" style="color:var(--rt-text-secondary);border-color:var(--rt-border)">✕</button></div>
+    <label>Название проекта<input id="pf-title" required></label>
+    <label>Направление<select id="pf-direction"><option value="">— без направления —</option></select></label>
+    <div style="display:flex;gap:12px">
+      <label style="flex:1">Дата начала<input type="date" id="pf-start"></label>
+      <label style="flex:1">Дата окончания<input type="date" id="pf-end"></label>
+    </div>
+    <label>Кто может принимать участие<textarea id="pf-requirements" rows="2" style="width:100%;padding:9px 12px;border:1px solid var(--rt-border);border-radius:var(--rt-radius-m);margin-top:4px"></textarea></label>
+    <label>Подробное описание<textarea id="pf-description" rows="4" style="width:100%;padding:9px 12px;border:1px solid var(--rt-border);border-radius:var(--rt-radius-m);margin-top:4px"></textarea></label>
+    <label>Фото (png, jpg, webp, gif, до 5 МБ)<input type="file" id="pf-photo" accept=".png,.jpg,.jpeg,.webp,.gif"></label>
+    <button class="btn btn-primary btn-block" id="pf-save">Сохранить</button>
+    <div id="pf-error" class="error"></div>
+  </div>
+</div>
+
+<!-- Модальное окно: досье пользователя (admin/manager) -->
+<div id="modal-user" class="modal hidden">
+  <div class="modal-card">
+    <div class="card-head"><h2 id="dossier-title">Пользователь</h2>
+      <button class="btn btn-ghost" id="dossier-close" style="color:var(--rt-text-secondary);border-color:var(--rt-border)">✕</button></div>
+    <div id="dossier-body"></div>
+  </div>
+</div>
+
+<!-- Модальное окно: новое взаимодействие -->
+<div id="modal-new" class="modal hidden">
+  <div class="modal-card small">
+    <div class="card-head"><h2>Новое взаимодействие</h2><button class="btn btn-ghost" id="modal-new-close">✕</button></div>
+    <label>ВУЗ<select id="ni-university"></select></label>
+    <label>ИТ-продукт<select id="ni-product"><option value="">— без продукта —</option></select></label>
+    <label>Ответственный<select id="ni-responsible"></select></label>
+    <button class="btn btn-primary btn-block" id="ni-create">Создать</button>
+    <div id="ni-error" class="error"></div>
+  </div>
+</div>
+
+<!-- Пользовательское соглашение -->
+<div id="modal-agreement" class="modal hidden">
+  <div class="modal-card" style="max-height:80vh">
+    <div class="card-head"><h2>Пользовательское соглашение</h2>
+      <button class="btn btn-ghost" id="agreement-close" style="color:var(--rt-text-secondary);border-color:var(--rt-border)">✕</button></div>
+    <div class="course-text" style="max-height:55vh;overflow-y:auto">
+<b>1. Общие положения</b>
+Настоящее соглашение регулирует порядок использования CRM-системы «ИТ Школа Ростелеком» (далее — Сервис). Регистрируясь, вы подтверждаете согласие с условиями.
+
+<b>2. Регистрация и аккаунт</b>
+Вы обязуетесь указывать достоверные данные, хранить пароль в недоступном для третьих лиц месте и не передавать доступ к аккаунту другим лицам. Администрация вправе заблокировать аккаунт при нарушении правил.
+
+<b>3. Персональные данные (152-ФЗ)</b>
+Оператор обрабатывает: ФИО, e-mail, телефон, дату рождения, сведения об организации и технические данные сессии (IP, тип устройства, браузер). Цели обработки: предоставление доступа к Сервису, организация обучения, связь с участниками. Данные не передаются третьим лицам, за исключением случаев, предусмотренных законом РФ.
+
+<b>4. Cookie и локальное хранилище</b>
+Сервис использует файлы cookie и локальное хранилище браузера для: аутентификации (токен сессии), запоминания согласия с настоящими условиями, сохранения настроек интерфейса. Продолжая работу с Сервисом, вы соглашаетесь с использованием cookie.
+
+<b>5. Контент</b>
+Пользователь несёт ответственность за достоверность сведений в профиле и заявках. Материалы курсов и проектов защищены и не могут распространяться без согласия правообладателя.
+
+<b>6. Ответственность сторон</b>
+Администрация не отвечает за перебои в работе Сервиса по независящим причинам. Споры разрешаются в соответствии с законодательством РФ.
+    </div>
+  </div>
+</div>
+
+<!-- Баннер cookie -->
+<div id="cookie-banner" class="cookie-banner hidden">
+  <div>🍪 Мы используем файлы <b>cookie</b> и локальное хранилище браузера: для входа в аккаунт, сохранения ваших настроек и статистики посещений.</div>
+  <div style="display:flex;gap:8px;flex-shrink:0">
+    <button class="btn btn-outline small" id="cookie-details-btn">Подробнее</button>
+    <button class="btn btn-primary small" id="cookie-accept">Принять</button>
+  </div>
+</div>
+
+<!-- Модалка: подробности о cookie -->
+<div id="modal-cookies" class="modal hidden">
+  <div class="modal-card" style="max-height:80vh">
+    <div class="card-head"><h2>Какие файлы мы используем</h2>
+      <button class="btn btn-ghost" id="cookies-close" style="color:var(--rt-text-secondary);border-color:var(--rt-border)">✕</button></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Имя</th><th>Где хранится</th><th>Что хранит</th><th>Срок</th></tr></thead>
+      <tbody class="no-click">
+        <tr><td><code>rtk_token</code></td><td>localStorage</td><td>JWT-токен авторизации — поддерживает ваш вход</td><td>8 часов</td></tr>
+        <tr><td><code>rtk_cookie_consent</code></td><td>localStorage</td><td>Факт вашего согласия с cookie-уведомлением</td><td>до очистки браузера</td></tr>
+        <tr><td><code>фильтры и кэш интерфейса</code></td><td>localStorage</td><td>Настройки отображения (вкладки, сортировка)</td><td>сессия</td></tr>
+        <tr><td><code>сессионные cookie</code></td><td>cookie</td><td>Могут применяться для балансировки и защиты (CSRF)</td><td>сессия</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted" style="margin-top:10px">Отключение cookie в браузере может нарушить работу входа в систему. Технические данные сессии (тип устройства, браузер, IP) сохраняются в защищённой БД и видны только руководителям и администраторам в вашем досье.</p>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>

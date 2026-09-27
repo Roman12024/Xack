@@ -1,0 +1,352 @@
+/* ==========================================================================
+   ИТ Школа Ростелеком — CRM · Стили на дизайн-токенах
+   Дизайн-система Ростелекома (gen2 / «Атомаро») · Rostelecom Light Theme
+   Документация по токенам и компонентам: /design-system.html
+   ========================================================================== */
+
+/* ---------- 1. Primitives (базовая палитра) ---------- */
+:root {
+  --rt-purple-900: #2E0050;
+  --rt-purple-800: #3B0073;
+  --rt-purple-700: #4A0090;
+  --rt-purple-600: #5A00C8;
+  --rt-purple-500: #7700FF;
+  --rt-purple-400: #9B3DFF;
+  --rt-purple-300: #C080FF;
+  --rt-purple-200: #E0C2FF;
+  --rt-purple-100: #F0E0FF;
+  --rt-purple-50:  #F8F2FF;
+
+  --rt-ink-900: #101014;
+  --rt-ink-700: #2B2735;
+  --rt-ink-500: #5F5B6B;
+  --rt-ink-400: #8B8798;
+  --rt-ink-300: #B7B3C2;
+  --rt-ink-200: #E3DDF0;
+  --rt-ink-100: #EFEBF7;
+  --rt-ink-50:  #F7F5FB;
+
+  --rt-success: #00A651;
+  --rt-success-bg: #E0F5EA;
+  --rt-warning: #B77900;
+  --rt-warning-bg: #FFF3D6;
+  --rt-error: #D92D20;
+  --rt-error-bg: #FDE8E7;
+
+  --rt-font-family: 'RT Basis', 'Rostelecom Basis', -apple-system, BlinkMacSystemFont,
+                    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --rt-font-size-xs: 11px;
+  --rt-font-size-s: 13px;
+  --rt-font-size-m: 15px;
+  --rt-font-size-l: 17px;
+  --rt-font-size-xl: 22px;
+  --rt-font-size-xxl: 30px;
+  --rt-line-height: 1.45;
+
+  --rt-space-1: 4px;
+  --rt-space-2: 8px;
+  --rt-space-3: 12px;
+  --rt-space-4: 16px;
+  --rt-space-5: 20px;
+  --rt-space-6: 24px;
+  --rt-space-8: 32px;
+
+  --rt-radius-s: 6px;
+  --rt-radius-m: 8px;
+  --rt-radius-l: 12px;
+  --rt-radius-xl: 16px;
+  --rt-radius-pill: 999px;
+
+  --rt-shadow-s: 0 1px 3px rgba(46, 0, 80, .10);
+  --rt-shadow-m: 0 4px 16px rgba(46, 0, 80, .12);
+  --rt-shadow-l: 0 16px 48px rgba(46, 0, 80, .22);
+
+  --rt-motion-fast: .15s;
+  --rt-motion-med: .25s;
+}
+
+/* ---------- 2. Семантические токены: Rostelecom Light Theme ---------- */
+[data-rt-theme="light"] {
+  --rt-bg-page: var(--rt-ink-50);
+  --rt-bg-surface: #FFFFFF;
+  --rt-bg-secondary: var(--rt-ink-100);
+  --rt-bg-primary-soft: var(--rt-purple-50);
+  --rt-text-primary: var(--rt-ink-900);
+  --rt-text-secondary: var(--rt-ink-500);
+  --rt-text-tertiary: var(--rt-ink-400);
+  --rt-text-on-primary: #FFFFFF;
+  --rt-border: var(--rt-ink-200);
+  --rt-primary: var(--rt-purple-500);
+  --rt-primary-hover: var(--rt-purple-600);
+  --rt-primary-active: var(--rt-purple-700);
+  --rt-primary-soft: var(--rt-purple-100);
+  --rt-focus-ring: rgba(119, 0, 255, .25);
+}
+
+[data-rt-theme="dark"] {
+  --rt-bg-page: #14101C;
+  --rt-bg-surface: #1E1828;
+  --rt-bg-secondary: #2A2236;
+  --rt-bg-primary-soft: rgba(119, 0, 255, .18);
+  --rt-text-primary: #F2EFF8;
+  --rt-text-secondary: #B7B3C2;
+  --rt-text-tertiary: #8B8798;
+  --rt-text-on-primary: #FFFFFF;
+  --rt-border: #3A3248;
+  --rt-primary: #9B3DFF;
+  --rt-primary-hover: #C080FF;
+  --rt-primary-active: #E0C2FF;
+  --rt-primary-soft: rgba(155, 61, 255, .22);
+  --rt-focus-ring: rgba(155, 61, 255, .35);
+  --rt-shadow-s: 0 1px 3px rgba(0, 0, 0, .4);
+  --rt-shadow-m: 0 4px 16px rgba(0, 0, 0, .45);
+  --rt-shadow-l: 0 16px 48px rgba(0, 0, 0, .6);
+}
+
+/* ---------- 3. База ---------- */
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--rt-font-family);background:var(--rt-bg-page);color:var(--rt-text-primary);
+     font-size:var(--rt-font-size-m);line-height:var(--rt-line-height);
+     transition:background var(--rt-motion-med), color var(--rt-motion-med)}
+.hidden{display:none!important}
+.muted{color:var(--rt-text-tertiary);font-size:var(--rt-font-size-s)}
+.error{color:var(--rt-error);font-size:var(--rt-font-size-s);margin-top:var(--rt-space-2);min-height:18px}
+h2{font-size:var(--rt-font-size-l);margin:0}
+h3{font-size:var(--rt-font-size-m);margin:var(--rt-space-4) 0 var(--rt-space-2)}
+
+/* ---------- 4. Экран входа (брендинг «ИТ Школа — Код будущего») ---------- */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:var(--rt-space-5);
+  background:radial-gradient(1200px 600px at 80% -10%, rgba(155,61,255,.55), transparent 60%),
+             radial-gradient(900px 500px at -10% 110%, rgba(192,128,255,.35), transparent 55%),
+             linear-gradient(160deg, var(--rt-purple-900) 0%, var(--rt-purple-800) 55%, var(--rt-purple-600) 100%)}
+.login-card{background:var(--rt-bg-surface);border-radius:var(--rt-radius-xl);padding:var(--rt-space-8);
+  width:400px;max-width:92vw;box-shadow:var(--rt-shadow-l)}
+.login-logo{font-size:var(--rt-font-size-xl);font-weight:700;color:var(--rt-purple-500)}
+[data-rt-theme="dark"] .login-logo{color:#C080FF}
+.login-logo span{font-weight:400;color:var(--rt-text-secondary);font-size:var(--rt-font-size-m)}
+.login-tagline{display:inline-block;margin-top:var(--rt-space-2);padding:var(--rt-space-1) var(--rt-space-3);
+  border-radius:var(--rt-radius-pill);background:var(--rt-primary-soft);color:var(--rt-primary);
+  font-size:var(--rt-font-size-s);font-weight:600}
+.login-card h1{font-size:var(--rt-font-size-l);margin:var(--rt-space-4) 0 var(--rt-space-1)}
+.login-card label{display:block;margin-top:var(--rt-space-4);font-size:var(--rt-font-size-s);color:var(--rt-text-secondary)}
+.demo-hint{margin-top:var(--rt-space-5);font-size:var(--rt-font-size-xs);color:var(--rt-text-secondary);
+  background:var(--rt-bg-primary-soft);border-radius:var(--rt-radius-m);padding:var(--rt-space-3) var(--rt-space-4);line-height:1.6}
+
+/* ---------- 5. Формы ---------- */
+input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--rt-border);border-radius:var(--rt-radius-m);
+  font-size:var(--rt-font-size-m);font-family:inherit;background:var(--rt-bg-surface);color:var(--rt-text-primary);margin-top:var(--rt-space-1)}
+input:hover,select:hover{border-color:var(--rt-primary)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--rt-primary);box-shadow:0 0 0 3px var(--rt-focus-ring)}
+label{font-size:var(--rt-font-size-s);color:var(--rt-text-secondary)}
+
+/* ---------- 6. Кнопки ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--rt-space-2);
+  border:1px solid transparent;border-radius:var(--rt-radius-m);cursor:pointer;
+  padding:9px 16px;font-size:var(--rt-font-size-m);font-family:inherit;font-weight:500;
+  transition:background var(--rt-motion-fast), border-color var(--rt-motion-fast), transform var(--rt-motion-fast)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--rt-primary);color:var(--rt-text-on-primary)}
+.btn-primary:hover{background:var(--rt-primary-hover)}
+.btn-primary:active{background:var(--rt-primary-active)}
+.btn-secondary{background:transparent;color:var(--rt-primary);border-color:var(--rt-primary)}
+.btn-secondary:hover{background:var(--rt-bg-primary-soft)}
+.btn-outline{background:var(--rt-bg-surface);color:var(--rt-text-primary);border-color:var(--rt-border)}
+.btn-outline:hover{border-color:var(--rt-primary);color:var(--rt-primary)}
+.btn-ghost{background:transparent;border-color:rgba(255,255,255,.4);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn.small{padding:5px 10px;font-size:var(--rt-font-size-s)}
+.btn-block{width:100%;margin-top:var(--rt-space-4)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.file-btn{display:inline-block;cursor:pointer}
+
+/* ---------- 7. Шапка и навигация ---------- */
+.topbar{display:flex;align-items:center;gap:var(--rt-space-4);color:#fff;padding:0 var(--rt-space-5);height:60px;
+  position:sticky;top:0;z-index:10;
+  background:radial-gradient(600px 200px at 100% 0%, rgba(155,61,255,.5), transparent 60%),
+             linear-gradient(90deg, var(--rt-purple-900), var(--rt-purple-700) 60%, var(--rt-purple-600))}
+.brand{font-weight:700;white-space:nowrap}
+.brand small{display:block;font-weight:400;opacity:.8;font-size:var(--rt-font-size-xs)}
+#tabs{display:flex;gap:var(--rt-space-1);flex:1;overflow-x:auto}
+.tab{background:transparent;border:0;color:#E0D2FF;padding:10px 14px;border-radius:var(--rt-radius-m);
+  cursor:pointer;font-size:var(--rt-font-size-m);font-family:inherit;white-space:nowrap;
+  transition:background var(--rt-motion-fast), color var(--rt-motion-fast)}
+.tab:hover{background:rgba(255,255,255,.12);color:#fff}
+.tab.active{background:#fff;color:var(--rt-purple-600);font-weight:600}
+.userbox{display:flex;align-items:center;gap:var(--rt-space-3);font-size:var(--rt-font-size-s);white-space:nowrap}
+.role-badge{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:var(--rt-radius-pill);font-size:var(--rt-font-size-xs)}
+main{padding:var(--rt-space-5);max-width:1400px;margin:0 auto}
+
+/* ---------- 8. Карточки и сетка ---------- */
+.card{background:var(--rt-bg-surface);border:1px solid var(--rt-border);border-radius:var(--rt-radius-l);
+  padding:var(--rt-space-5);margin-bottom:var(--rt-space-5);box-shadow:var(--rt-shadow-s);
+  transition:background var(--rt-motion-med), border-color var(--rt-motion-med)}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--rt-space-3);gap:var(--rt-space-3);flex-wrap:wrap}
+.filters{display:flex;flex-wrap:wrap;gap:var(--rt-space-3);align-items:flex-end}
+.filters label{font-size:var(--rt-font-size-xs);min-width:130px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:var(--rt-space-5)}
+@media(max-width:900px){.grid-2{grid-template-columns:1fr}.topbar{flex-wrap:wrap;height:auto;padding:var(--rt-space-3)}#tabs{order:3;width:100%}}
+
+/* ---------- 9. Таблицы ---------- */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:var(--rt-font-size-s)}
+th{text-align:left;color:var(--rt-text-secondary);font-weight:600;padding:var(--rt-space-2) 10px;
+  border-bottom:2px solid var(--rt-primary-soft);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--rt-border);vertical-align:top}
+tbody tr{transition:background var(--rt-motion-fast)}
+tbody tr:hover{background:var(--rt-bg-primary-soft);cursor:pointer}
+tbody tr.no-click:hover{cursor:default}
+
+/* ---------- 10. Чипы, теги, статусы ---------- */
+.status-chip{display:inline-block;background:var(--rt-bg-primary-soft);color:var(--rt-primary);
+  padding:3px 10px;border-radius:var(--rt-radius-pill);font-size:var(--rt-font-size-xs);font-weight:600}
+.tag{display:inline-block;background:var(--rt-bg-secondary);color:var(--rt-text-secondary);
+  padding:2px 8px;border-radius:var(--rt-radius-s);font-size:var(--rt-font-size-xs)}
+.tag-success{background:var(--rt-success-bg);color:var(--rt-success)}
+.tag-warning{background:var(--rt-warning-bg);color:var(--rt-warning)}
+.tag-error{background:var(--rt-error-bg);color:var(--rt-error)}
+
+/* ---------- 11. Списки и формы в ряд ---------- */
+.simple-list{list-style:none;margin:0;padding:0}
+.simple-list li{padding:var(--rt-space-2) 10px;border-bottom:1px solid var(--rt-border);
+  display:flex;justify-content:space-between;gap:var(--rt-space-2)}
+.inline-form{display:flex;gap:var(--rt-space-2);margin-top:var(--rt-space-3);flex-wrap:wrap}
+.inline-form input,.inline-form select{flex:1;min-width:120px;margin-top:0}
+
+/* ---------- 12. Графики ---------- */
+.bars{margin-top:var(--rt-space-2)}
+.bar-row{display:flex;align-items:center;gap:var(--rt-space-2);margin:6px 0;font-size:var(--rt-font-size-xs)}
+.bar-label{width:220px;min-width:120px;text-align:right;color:var(--rt-text-secondary);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;background:var(--rt-bg-primary-soft);border-radius:var(--rt-radius-s);height:20px}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--rt-purple-500),var(--rt-purple-400));
+  border-radius:var(--rt-radius-s);min-width:2px;transition:width var(--rt-motion-med)}
+.bar-val{width:30px;font-weight:600}
+.chart-img{max-width:100%;border:1px solid var(--rt-border);border-radius:var(--rt-radius-l);margin-top:var(--rt-space-2)}
+
+/* ---------- 13. Модальные окна ---------- */
+.modal{position:fixed;inset:0;background:rgba(20,8,38,.6);display:flex;align-items:center;justify-content:center;
+  z-index:100;padding:var(--rt-space-5);backdrop-filter:blur(2px)}
+.modal-card{background:var(--rt-bg-surface);border:1px solid var(--rt-border);border-radius:var(--rt-radius-xl);
+  padding:var(--rt-space-6);width:760px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--rt-shadow-l)}
+.modal-card.small{width:420px}
+.modal-card label{display:block;margin-top:var(--rt-space-3)}
+#modal-body h3{margin-top:var(--rt-space-4)}
+
+/* ---------- 14. Таймлайн ---------- */
+.timeline{border-left:3px solid var(--rt-primary-soft);margin:var(--rt-space-3) 0 0 6px;padding-left:var(--rt-space-4)}
+.tl-item{margin-bottom:var(--rt-space-4);position:relative;font-size:var(--rt-font-size-s)}
+.tl-item::before{content:'';position:absolute;left:-23px;top:3px;width:11px;height:11px;border-radius:50%;
+  background:var(--rt-primary);box-shadow:0 0 0 3px var(--rt-bg-primary-soft)}
+.tl-status{font-weight:600}
+.tl-comment{color:var(--rt-text-secondary);margin-top:var(--rt-space-1)}
+.tl-meta{font-size:var(--rt-font-size-xs);color:var(--rt-text-tertiary)}
+.tl-files a{color:var(--rt-primary);margin-right:var(--rt-space-2)}
+
+/* ---------- 15. Всплывающие уведомления ---------- */
+.toast{position:fixed;bottom:var(--rt-space-6);right:var(--rt-space-6);background:var(--rt-ink-900);color:#fff;
+  padding:12px var(--rt-space-5);border-radius:var(--rt-radius-l);font-size:var(--rt-font-size-s);z-index:200;
+  box-shadow:var(--rt-shadow-m);animation:toast-in var(--rt-motion-med) ease}
+[data-rt-theme="dark"] .toast{background:#fff;color:var(--rt-ink-900)}
+@keyframes toast-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- 16. Подвал ---------- */
+.footer{padding:var(--rt-space-4) var(--rt-space-5);text-align:center;color:var(--rt-text-tertiary);
+  font-size:var(--rt-font-size-xs)}
+.footer a{color:var(--rt-primary);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* ---------- 17. Доступность ---------- */
+:focus-visible{outline:2px solid var(--rt-primary);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+
+/* ---------- 19. Авторизация: вход/регистрация ---------- */
+.auth-tabs{display:flex;gap:var(--rt-space-2);margin-bottom:var(--rt-space-2)}
+.auth-tab{flex:1;padding:9px;border:1px solid var(--rt-border);background:var(--rt-bg-secondary);
+  border-radius:var(--rt-radius-m);cursor:pointer;font-size:var(--rt-font-size-s);font-family:inherit;
+  color:var(--rt-text-secondary);transition:all var(--rt-motion-fast)}
+.auth-tab.active{background:var(--rt-primary);border-color:var(--rt-primary);color:#fff;font-weight:600}
+.notice{background:var(--rt-success-bg);color:var(--rt-success);border-radius:var(--rt-radius-m);
+  padding:var(--rt-space-3);font-size:var(--rt-font-size-s);margin-top:var(--rt-space-3)}
+.notice.error-note{background:var(--rt-error-bg);color:var(--rt-error)}
+
+/* ---------- 20. Каталог ИТ-проектов ---------- */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--rt-space-4);margin-top:var(--rt-space-3)}
+.project-card{border:1px solid var(--rt-border);border-radius:var(--rt-radius-l);padding:var(--rt-space-4);
+  background:var(--rt-bg-surface);transition:border-color var(--rt-motion-fast), box-shadow var(--rt-motion-fast)}
+.project-card:hover{border-color:var(--rt-primary);box-shadow:var(--rt-shadow-m)}
+.project-card h4{margin:0 0 var(--rt-space-2);font-size:var(--rt-font-size-m)}
+.project-card p{margin:var(--rt-space-2) 0 0;font-size:var(--rt-font-size-s);color:var(--rt-text-secondary)}
+
+/* ---------- 21. Курсы ---------- */
+.course-card{display:flex;flex-direction:column;border:1px solid var(--rt-border);border-radius:var(--rt-radius-l);
+  overflow:hidden;background:var(--rt-bg-surface);cursor:pointer;
+  transition:border-color var(--rt-motion-fast), box-shadow var(--rt-motion-fast)}
+.course-card:hover{border-color:var(--rt-primary);box-shadow:var(--rt-shadow-m)}
+.course-photo{height:150px;background:linear-gradient(135deg,var(--rt-purple-800),var(--rt-purple-500));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:40px;font-weight:700}
+.course-photo img{width:100%;height:100%;object-fit:cover}
+.course-body{padding:var(--rt-space-4)}
+.course-body h4{margin:0 0 var(--rt-space-2);font-size:var(--rt-font-size-m)}
+.course-dates{display:inline-block;background:var(--rt-bg-primary-soft);color:var(--rt-primary);
+  padding:2px 10px;border-radius:var(--rt-radius-pill);font-size:var(--rt-font-size-xs);font-weight:600}
+.course-detail-photo{height:220px;border-radius:var(--rt-radius-l);overflow:hidden;margin-bottom:var(--rt-space-4);
+  background:linear-gradient(135deg,var(--rt-purple-800),var(--rt-purple-500));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:56px;font-weight:700}
+.course-detail-photo img{width:100%;height:100%;object-fit:cover}
+.course-info-row{display:flex;gap:var(--rt-space-2);flex-wrap:wrap;margin:var(--rt-space-2) 0}
+.course-text{white-space:pre-wrap;font-size:var(--rt-font-size-s);color:var(--rt-text-secondary);
+  background:var(--rt-bg-page);border:1px solid var(--rt-border);border-radius:var(--rt-radius-m);padding:var(--rt-space-3)}
+
+/* ---------- 22. Профиль ---------- */
+.avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5)}
+.avatar-lg{width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid var(--rt-primary-soft);
+  background:var(--rt-bg-primary-soft)}
+.profile-top{display:flex;align-items:center;gap:var(--rt-space-4);margin-bottom:var(--rt-space-5)}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--rt-space-3) var(--rt-space-4)}
+@media(max-width:700px){.profile-grid{grid-template-columns:1fr}}
+
+/* ---------- 23. Цвета дедлайнов ---------- */
+.course-dates.tag-success{background:var(--rt-success-bg);color:var(--rt-success)}
+.course-dates.tag-warning{background:var(--rt-warning-bg);color:var(--rt-warning)}
+.course-dates.tag-error{background:var(--rt-error-bg);color:var(--rt-error)}
+
+/* ---------- 24. Участники курса ---------- */
+.participant-card{border:1px solid var(--rt-border);border-radius:var(--rt-radius-l);
+  padding:var(--rt-space-4);margin-bottom:var(--rt-space-3);background:var(--rt-bg-page)}
+.participant-head{display:flex;gap:var(--rt-space-3);align-items:center;margin-bottom:var(--rt-space-3)}
+.participant-head h4{margin:0;font-size:var(--rt-font-size-m)}
+.participant-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:var(--rt-font-size-s)}
+.pp-row{display:flex;justify-content:space-between;gap:var(--rt-space-2);border-bottom:1px dashed var(--rt-border);padding:4px 0}
+.pp-row span{color:var(--rt-text-tertiary)}
+@media(max-width:700px){.participant-fields{grid-template-columns:1fr}}
+
+/* ---------- 25. Панель взаимодействий (прогресс workflow) ---------- */
+.progress-wrap{margin-top:6px;min-width:130px}
+.progress-track{height:6px;background:var(--rt-bg-primary-soft);border-radius:var(--rt-radius-pill);overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--rt-purple-500),var(--rt-purple-400));
+  border-radius:var(--rt-radius-pill);transition:width var(--rt-motion-med)}
+.progress-label{font-size:var(--rt-font-size-xs);color:var(--rt-text-tertiary);margin-top:3px}
+#interactions-table{min-width:860px}
+#interactions-table .cell-uni{min-width:170px}
+#interactions-table .nowrap{white-space:nowrap}
+#interactions-table thead th{position:sticky;top:0;background:var(--rt-bg-surface);z-index:1}
+#interactions-table tbody tr:nth-child(even){background:var(--rt-bg-page)}
+#interactions-table tbody tr:nth-child(even):hover{background:var(--rt-bg-primary-soft)}
+#tab-interactions .filters label{min-width:150px;flex:1}
+#tab-interactions .table-wrap{max-height:calc(100vh - 320px);overflow-y:auto;border:1px solid var(--rt-border);border-radius:var(--rt-radius-m)}
+
+/* ---------- 26. Сортировка ---------- */
+.sort-box{display:flex;gap:var(--rt-space-2);align-items:center;flex-wrap:wrap}
+.sort-box select{width:auto;min-width:170px;margin:0}
+
+/* ---------- 27. Соглашение и cookie ---------- */
+.agree-row{display:flex!important;gap:10px;align-items:flex-start;cursor:pointer}
+.agree-row span{font-size:var(--rt-font-size-s);color:var(--rt-text-secondary);line-height:1.4}
+.agree-row a{color:var(--rt-primary)}
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:150;display:flex;gap:16px;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;padding:14px 24px;background:var(--rt-bg-surface);border-top:1px solid var(--rt-border);
+  box-shadow:0 -4px 16px rgba(46,0,80,.12);font-size:var(--rt-font-size-s)}
+
+/* ---------- 28. Завершённые курсы (только для staff) ---------- */
+.course-card.course-ended{opacity:.55;filter:saturate(.6)}
+.course-card.course-ended:hover{opacity:.9;filter:none}

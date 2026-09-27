@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru" data-rt-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-система · ИТ Школа Ростелеком CRM</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .ds-nav{position:sticky;top:60px;z-index:5;background:var(--rt-bg-surface);border-bottom:1px solid var(--rt-border);
+    padding:8px 20px;display:flex;gap:8px;flex-wrap:wrap}
+  .ds-nav a{font-size:13px;color:var(--rt-primary);text-decoration:none;padding:4px 10px;border-radius:6px}
+  .ds-nav a:hover{background:var(--rt-bg-primary-soft)}
+  .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:12px}
+  .swatch{border:1px solid var(--rt-border);border-radius:10px;overflow:hidden}
+  .swatch .color{height:64px}
+  .swatch .info{padding:8px 10px;font-size:12px}
+  .swatch .info b{display:block}
+  .swatch .info code{color:var(--rt-text-tertiary)}
+  .demo-box{border:1px dashed var(--rt-border);border-radius:12px;padding:16px;margin-top:12px;
+    display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:var(--rt-bg-page)}
+  details{margin-top:10px}
+  summary{cursor:pointer;color:var(--rt-primary);font-size:13px}
+  pre{background:var(--rt-ink-900);color:#E9E2F7;padding:14px 16px;border-radius:10px;overflow-x:auto;
+    font-size:12px;line-height:1.5;margin:8px 0 0}
+  pre code{font-family:Consolas,Menlo,monospace}
+  .type-sample{border-bottom:1px solid var(--rt-border);padding:10px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .type-sample code{color:var(--rt-text-tertiary);font-size:12px}
+  .spacing-box{display:inline-block;background:var(--rt-bg-primary-soft);border:1px solid var(--rt-primary);
+    color:var(--rt-primary);font-size:11px;text-align:center;vertical-align:bottom;margin-right:8px;border-radius:4px}
+  .map-table td:first-child{font-weight:600;white-space:nowrap}
+  .theme-switch{margin-left:auto}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">◢ Ростелеком<small>Дизайн-система · ИТ Школа CRM · Код будущего</small></div>
+  <label class="theme-switch" style="display:flex;align-items:center;gap:8px;color:#fff;font-size:13px">
+    <input type="checkbox" id="theme-toggle" style="width:auto;margin:0"> Тёмная тема
+  </label>
+</header>
+
+<nav class="ds-nav">
+  <a href="#intro">Введение</a><a href="#palette">Палитра</a><a href="#typography">Типографика</a>
+  <a href="#spacing">Отступы и скругления</a><a href="#components">Компоненты</a>
+  <a href="#mapping">Соответствие Atomaro React</a><a href="#usage">Подключение</a>
+</nav>
+
+<main>
+
+<section id="intro" class="card">
+  <h2>Введение</h2>
+  <p>Эта страница — материалы для разработчиков: визуальные токены и компоненты CRM «ИТ Школа Ростелеком»,
+     оформленные по корпоративной дизайн-системе Ростелекома (2-е поколение, «Атомаро»), в теме
+     <b>Rostelecom Light Theme</b> (присутствует и тёмная тема). Все значения заданы CSS-переменными
+     (<code>--rt-*</code>) и используются в <code>static/style.css</code>. Аналог продукта: LMS «ИТ Школа Ростелеком — Код будущего».</p>
+</section>
+
+<section id="palette" class="card">
+  <h2>Палитра (primitives)</h2>
+  <h3>Primary — фирменный фиолетовый</h3>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="color" style="background:#2E0050"></div><div class="info"><b>purple-900</b><code>#2E0050</code></div></div>
+    <div class="swatch"><div class="color" style="background:#3B0073"></div><div class="info"><b>purple-800</b><code>#3B0073</code></div></div>
+    <div class="swatch"><div class="color" style="background:#4A0090"></div><div class="info"><b>purple-700</b><code>#4A0090</code></div></div>
+    <div class="swatch"><div class="color" style="background:#5A00C8"></div><div class="info"><b>purple-600</b><code>#5A00C8</code></div></div>
+    <div class="swatch"><div class="color" style="background:#7700FF"></div><div class="info"><b>purple-500 / primary</b><code>#7700FF</code></div></div>
+    <div class="swatch"><div class="color" style="background:#9B3DFF"></div><div class="info"><b>purple-400</b><code>#9B3DFF</code></div></div>
+    <div class="swatch"><div class="color" style="background:#C080FF"></div><div class="info"><b>purple-300</b><code>#C080FF</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E0C2FF"></div><div class="info"><b>purple-200</b><code>#E0C2FF</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F0E0FF"></div><div class="info"><b>purple-100</b><code>#F0E0FF</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F8F2FF"></div><div class="info"><b>purple-50</b><code>#F8F2FF</code></div></div>
+  </div>
+  <h3>Нейтральная шкала (ink)</h3>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="color" style="background:#101014"></div><div class="info"><b>ink-900</b><code>#101014</code></div></div>
+    <div class="swatch"><div class="color" style="background:#2B2735"></div><div class="info"><b>ink-700</b><code>#2B2735</code></div></div>
+    <div class="swatch"><div class="color" style="background:#5F5B6B"></div><div class="info"><b>ink-500</b><code>#5F5B6B</code></div></div>
+    <div class="swatch"><div class="color" style="background:#8B8798"></div><div class="info"><b>ink-400</b><code>#8B8798</code></div></div>
+    <div class="swatch"><div class="color" style="background:#B7B3C2"></div><div class="info"><b>ink-300</b><code>#B7B3C2</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E3DDF0"></div><div class="info"><b>ink-200</b><code>#E3DDF0</code></div></div>
+    <div class="swatch"><div class="color" style="background:#EFEBF7"></div><div class="info"><b>ink-100</b><code>#EFEBF7</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F7F5FB"></div><div class="info"><b>ink-50</b><code>#F7F5FB</code></div></div>
+  </div>
+  <h3>Статусные цвета</h3>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="color" style="background:#00A651"></div><div class="info"><b>success</b><code>#00A651</code></div></div>
+    <div class="swatch"><div class="color" style="background:#B77900"></div><div class="info"><b>warning</b><code>#B77900</code></div></div>
+    <div class="swatch"><div class="color" style="background:#D92D20"></div><div class="info"><b>error</b><code>#D92D20</code></div></div>
+  </div>
+  <details><summary>Показать CSS-токены палитры</summary>
+<pre><code>:root {
+  --rt-purple-900: #2E0050;  --rt-purple-800: #3B0073;  --rt-purple-700: #4A0090;
+  --rt-purple-600: #5A00C8;  --rt-purple-500: #7700FF;  --rt-purple-400: #9B3DFF;
+  --rt-purple-300: #C080FF;  --rt-purple-200: #E0C2FF;  --rt-purple-100: #F0E0FF;
+  --rt-purple-50:  #F8F2FF;
+  --rt-ink-900: #101014;  --rt-ink-700: #2B2735;  --rt-ink-500: #5F5B6B;  --rt-ink-400: #8B8798;
+  --rt-ink-300: #B7B3C2;  --rt-ink-200: #E3DDF0;  --rt-ink-100: #EFEBF7;  --rt-ink-50:  #F7F5FB;
+  --rt-success: #00A651;  --rt-warning: #B77900;  --rt-error: #D92D20;
+}</code></pre></details>
+</section>
+
+<section id="typography" class="card">
+  <h2>Типографика</h2>
+  <p class="muted">Шрифт: <b>RT Basis</b> (корпоративный), fallback — системный sans-serif. Никаких других шрифтов в интерфейсе.</p>
+  <div class="type-sample"><span style="font-size:30px;font-weight:700">Заголовок страницы</span><code>30px / 700 (xxl)</code></div>
+  <div class="type-sample"><span style="font-size:22px;font-weight:700">Заголовок раздела</span><code>22px / 700 (xl)</code></div>
+  <div class="type-sample"><span style="font-size:17px;font-weight:600">Заголовок карточки</span><code>17px / 600 (l)</code></div>
+  <div class="type-sample"><span style="font-size:15px">Основной текст интерфейса</span><code>15px / 400 (m)</code></div>
+  <div class="type-sample"><span style="font-size:13px">Вторичный текст, подписи полей</span><code>13px / 400 (s)</code></div>
+  <div class="type-sample"><span style="font-size:11px;color:var(--rt-text-tertiary)">Мета-информация, служебные подписи</span><code>11px / 400 (xs)</code></div>
+  <details><summary>Показать CSS-токены типографики</summary>
+<pre><code>--rt-font-family: 'RT Basis', 'Rostelecom Basis', -apple-system, 'Segoe UI', Roboto, sans-serif;
+--rt-font-size-xs: 11px;  --rt-font-size-s: 13px;  --rt-font-size-m: 15px;
+--rt-font-size-l: 17px;   --rt-font-size-xl: 22px; --rt-font-size-xxl: 30px;
+--rt-line-height: 1.45;</code></pre></details>
+</section>
+
+<section id="spacing" class="card">
+  <h2>Отступы и скругления</h2>
+  <h3>Сетка отступов (шаг 4px)</h3>
+  <div style="margin-top:8px">
+    <span class="spacing-box" style="width:4px;height:4px"></span>4px
+    <span class="spacing-box" style="width:8px;height:8px"></span>8px
+    <span class="spacing-box" style="width:12px;height:12px"></span>12px
+    <span class="spacing-box" style="width:16px;height:16px"></span>16px
+    <span class="spacing-box" style="width:20px;height:20px"></span>20px
+    <span class="spacing-box" style="width:24px;height:24px"></span>24px
+    <span class="spacing-box" style="width:32px;height:32px"></span>32px
+  </div>
+  <h3>Скругления</h3>
+  <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+    <span class="spacing-box" style="width:56px;height:56px;border-radius:6px">6px</span>
+    <span class="spacing-box" style="width:56px;height:56px;border-radius:8px">8px</span>
+    <span class="spacing-box" style="width:56px;height:56px;border-radius:12px">12px</span>
+    <span class="spacing-box" style="width:56px;height:56px;border-radius:16px">16px</span>
+    <span class="spacing-box" style="width:96px;height:32px;border-radius:999px">pill</span>
+  </div>
+  <details><summary>Показать CSS-токены отступов и радиусов</summary>
+<pre><code>--rt-space-1: 4px;  --rt-space-2: 8px;  --rt-space-3: 12px; --rt-space-4: 16px;
+--rt-space-5: 20px; --rt-space-6: 24px; --rt-space-8: 32px;
+--rt-radius-s: 6px; --rt-radius-m: 8px; --rt-radius-l: 12px;
+--rt-radius-xl: 16px; --rt-radius-pill: 999px;</code></pre></details>
+</section>
+
+<section id="components" class="card">
+  <h2>Компоненты</h2>
+
+  <h3>Кнопки</h3>
+  <div class="demo-box">
+    <button class="btn btn-primary">Primary</button>
+    <button class="btn btn-secondary">Secondary</button>
+    <button class="btn btn-outline">Outline</button>
+    <button class="btn btn-outline" disabled>Disabled</button>
+    <button class="btn btn-primary small">Small</button>
+  </div>
+  <details><summary>Код</summary>
+<pre><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="btn btn-outline"&gt;Outline&lt;/button&gt;</code></pre></details>
+
+  <h3>Поля ввода</h3>
+  <div class="demo-box" style="align-items:flex-end">
+    <label style="width:220px">Логин<input type="text" placeholder="ivan.petrov"></label>
+    <label style="width:220px">Период с<input type="date"></label>
+    <label style="width:220px">ВУЗ<select><option>МГУ им. М. В. Ломоносова</option><option>МФТИ</option></select></label>
+  </div>
+  <details><summary>Код</summary>
+<pre><code>&lt;label&gt;Логин&lt;input type="text" placeholder="ivan.petrov"&gt;&lt;/label&gt;
+&lt;label&gt;Период с&lt;input type="date"&gt;&lt;/label&gt;
+&lt;label&gt;ВУЗ&lt;select&gt;…&lt;/select&gt;&lt;/label&gt;</code></pre></details>
+
+  <h3>Теги и статусные чипы</h3>
+  <div class="demo-box">
+    <span class="status-chip">Подписание документов</span>
+    <span class="tag">DevOps</span>
+    <span class="tag tag-success">Лицензия передана</span>
+    <span class="tag tag-warning">В передаче</span>
+    <span class="tag tag-error">Просрочено</span>
+  </div>
+  <details><summary>Код</summary>
+<pre><code>&lt;span class="status-chip"&gt;Подписание документов&lt;/span&gt;
+&lt;span class="tag tag-success"&gt;Лицензия передана&lt;/span&gt;
+&lt;span class="tag tag-warning"&gt;В передаче&lt;/span&gt;
+&lt;span class="tag tag-error"&gt;Просрочено&lt;/span&gt;</code></pre></details>
+
+  <h3>Таблица</h3>
+  <div class="table-wrap" style="margin-top:8px">
+    <table>
+      <thead><tr><th>ВУЗ</th><th>ИТ-продукт</th><th>Статус</th><th>Ответственный</th></tr></thead>
+      <tbody class="no-click">
+        <tr><td>МГУ им. М. В. Ломоносова</td><td>CI/CD Pipeline Kit</td><td><span class="status-chip">Подписание документов</span></td><td>Иван Петров</td></tr>
+        <tr><td>МФТИ</td><td>Kubernetes Learning Lab</td><td><span class="status-chip">Сопровождение внедрения</span></td><td>Иван Петров</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Таймлайн (история статусов)</h3>
+  <div class="timeline" style="margin-top:8px">
+    <div class="tl-item"><div class="tl-status">Обмен пакетом документов → Подписание документов</div>
+      <div class="tl-comment">Договор на согласовании у ректора</div>
+      <div class="tl-meta">Иван Петров · 2026-09-20 14:32</div></div>
+    <div class="tl-item"><div class="tl-status">Организация встречи → Обмен пакетом документов</div>
+      <div class="tl-meta">Иван Петров · 2026-09-12 10:05</div></div>
+  </div>
+  <details><summary>Код</summary>
+<pre><code>&lt;div class="timeline"&gt;
+  &lt;div class="tl-item"&gt;
+    &lt;div class="tl-status"&gt;Обмен документов → Подписание документов&lt;/div&gt;
+    &lt;div class="tl-comment"&gt;Договор на согласовании у ректора&lt;/div&gt;
+    &lt;div class="tl-meta"&gt;Иван Петров · 2026-09-20 14:32&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></details>
+
+  <h3>Блок статистики (bar-chart)</h3>
+  <div class="bars" style="margin-top:8px;max-width:520px">
+    <div class="bar-row"><div class="bar-label">Подписание документов</div><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div><div class="bar-val">3</div></div>
+    <div class="bar-row"><div class="bar-label">Ведение занятий</div><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><div class="bar-val">2</div></div>
+    <div class="bar-row"><div class="bar-label">Поиск контактов</div><div class="bar-track"><div class="bar-fill" style="width:15%"></div></div><div class="bar-val">1</div></div>
+  </div>
+</section>
+
+<section id="mapping" class="card">
+  <h2>Соответствие компонентам дизайн-системы (Atomaro React)</h2>
+  <p class="muted">При миграции фронта на React заменяйте наши CSS-классы на компоненты из UI-kit Ростелекома (npm-скоуп <code>@design-system-rt</code>, тема передаётся через <code>ThemeProvider</code>, CSS-переменные — <code>Rostelecom Light Theme</code>).</p>
+  <div class="table-wrap" style="margin-top:8px">
+    <table class="map-table">
+      <thead><tr><th>Компонент CRM</th><th>Класс CSS</th><th>Компонент Atomaro React</th></tr></thead>
+      <tbody class="no-click">
+        <tr><td>Кнопка</td><td><code>.btn .btn-primary/.btn-secondary/.btn-outline</code></td><td><code>Button</code></td></tr>
+        <tr><td>Поле ввода</td><td><code>input</code></td><td><code>Input</code> / <code>InputDate</code> (периоды)</td></tr>
+        <tr><td>Выпадающий список</td><td><code>select</code></td><td><code>Select</code> / <code>Multiselect</code></td></tr>
+        <tr><td>Тег статуса</td><td><code>.status-chip</code> / <code>.tag</code></td><td><code>Tag</code></td></tr>
+        <tr><td>Вкладки</td><td><code>.tab</code></td><td><code>SegmentedControl</code> / <code>Tabs</code></td></tr>
+        <tr><td>Модальное окно</td><td><code>.modal</code></td><td><code>Drawer</code> / <code>Modal</code></td></tr>
+        <tr><td>Уведомление</td><td><code>.toast</code></td><td><code>Notifications</code></td></tr>
+        <tr><td>Подсказки</td><td>—</td><td><code>Tooltip</code> / <code>Popover</code></td></tr>
+        <tr><td>Иконки</td><td>—</td><td><code>Icon</code> (библиотека иконок Ростелекома)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="usage" class="card">
+  <h2>Подключение в проекте</h2>
+  <p>Все токены и компоненты уже подключены в <code>static/style.css</code>. Пример использования токенов в собственных стилях:</p>
+  <pre><code>.my-block {
+  background: var(--rt-bg-surface);
+  color: var(--rt-text-primary);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-l);
+  padding: var(--rt-space-4);
+}
+.my-block:hover { border-color: var(--rt-primary); }</code></pre>
+  <p class="muted" style="margin-top:12px">Тема переключается атрибутом <code>data-rt-theme="light|dark"</code> на теге <code>&lt;html&gt;</code> — все семантические токены пересчитаются автоматически.</p>
+</section>
+
+</main>
+
+<script>
+  document.getElementById('theme-toggle').addEventListener('change', function () {
+    document.documentElement.setAttribute('data-rt-theme', this.checked ? 'dark' : 'light');
+  });
+</script>
+</body>
+</html>
